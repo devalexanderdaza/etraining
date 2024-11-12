@@ -1,0 +1,29 @@
+{
+  "name": "etraining",
+  "version": "1.0.0",
+  "description": "Etrainigin it is a monorepo for the elearning platform of the developer position",
+  "author": {
+			"name": "Alexander Daza",
+			"email": "dev.alexander.daza@gmail.com",
+			"url": "https://github.com/devalexanderdaza"
+		},
+	"contributors": [
+		{
+			"name": "Alexander Daza",
+			"email": "dev.alexander.daza@gmail.com",
+			"url": "https://github.com/devalexanderdaza"
+		}
+	],
+	"private": true,
+  "license": "ISC",
+  "scripts": {
+    "dev": "turbo run dev",
+		"build": "turbo run build"
+  },
+  "devDependencies": {
+    "turbo": "2.2.3"
+  },
+  "workspaces": [
+    "apps/*"
+  ]
+}
