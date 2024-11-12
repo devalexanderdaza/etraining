@@ -2,9 +2,12 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { RolesModule } from './roles/roles.module';
 import { CategoriesModule } from './categories/categories.module';
+import { CoursesModule } from './courses/courses.module';
+import { InscriptionStatusModule } from './inscription-status/inscription-status.module';
 import { ModalitiesModule } from './modalities/modalities.module';
+import { RolesModule } from './roles/roles.module';
+import { UserCoursesModule } from './user-courses/user-courses.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -24,6 +27,9 @@ import { UsersModule } from './users/users.module';
     CategoriesModule,
     ModalitiesModule,
     UsersModule,
+    CoursesModule,
+    UserCoursesModule,
+    InscriptionStatusModule,
   ],
   controllers: [AppController],
   providers: [AppService],
