@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { CoursesModule } from './courses/courses.module';
 import { InscriptionStatusModule } from './inscription-status/inscription-status.module';
@@ -23,6 +24,7 @@ import { UsersModule } from './users/users.module';
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true, // usar migraciones en producción
     }),
+    AuthModule,
     RolesModule,
     CategoriesModule,
     ModalitiesModule,

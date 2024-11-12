@@ -1,1 +1,24 @@
-export class Modality {}
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity({
+  name: 'modalities',
+})
+export class Modality {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  name: string;
+
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
+
+  @Column({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
+}
