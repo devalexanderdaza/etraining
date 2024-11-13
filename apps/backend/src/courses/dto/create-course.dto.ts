@@ -1,33 +1,31 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsPositive, IsString } from 'class-validator';
+import { IsString, IsInt, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
 
 export class CreateCourseDto {
   @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
   name: string;
 
-  @IsNumber()
-  @IsNotEmpty()
-  @IsPositive()
-  @ApiProperty()
-  categoryId: number;
+  @IsInt()
+  @Type(() => Number)
+  category_id: number;
 
-  @IsNumber()
-  @IsNotEmpty()
-  @IsPositive()
-  @ApiProperty()
-  modalityId: number;
+  @IsInt()
+  @Type(() => Number)
+  modality_id: number;
 
-  @IsNumber()
-  @IsNotEmpty()
-  @IsPositive()
-  @ApiProperty()
+  @IsInt()
+  @Type(() => Number)
   duration: number;
 
-  @IsNumber()
-  @IsNotEmpty()
-  @IsPositive()
-  @ApiProperty()
-  cuota: number;
+  @IsInt()
+  @Type(() => Number)
+  couta: number;
+
+  @IsOptional()
+  @Type(() => Date)
+  createdAt?: Date;
+
+  @IsOptional()
+  @Type(() => Date)
+  updatedAt?: Date;
 }

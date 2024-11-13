@@ -1,0 +1,31 @@
+version: 0.2
+
+env:
+  image: aws/codebuild/standard:4.0
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 17.9.1
+    commands:
+      - echo "Install phase"
+      - npm install
+  pre_build:
+    commands:
+      - echo "Pre build phase 1"
+      - >
+        export VITE_BACKEND_URL=$(aws secretsmanager get-secret-value --secret-id arn:aws:secretsmanager:sa-east-1:393455371269:secret:prod/etraining-frontend-BA7NgG --query SecretString --output text | jq -r '.VITE_BACKEND_URL')
+      - echo "API URL is $VITE_BACKEND_URL"
+  build:
+    commands:
+      - echo "Build phase"
+      - echo "API URL is $VITE_BACKEND_URL"
+      - npm run build
+  post_build:
+    commands:
+      - echo "Post build phase"
+      - aws s3 sync dist/ s3://etraining-frontend-bucket --delete
+      - aws cloudformation package --template-file template.yaml --s3-bucket etraining-frontend --output-template-file outputtemplate.yml
+      - |
+        aws cloudformation deploy --template-file outputtemplate.yml --stack-name etraining-frontend --capabilities CAPABILITY_IAM || \
+        if [ $? -eq 255 ]; then echo "No changes to deploy. Stack etraining-frontend is up to date."; else exit 1; fi
