@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Role } from 'src/roles/entities/role.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({
   name: 'users',
@@ -22,8 +29,10 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
-  phone: string;
+  @Column({
+    nullable: true,
+  })
+  phone?: string;
 
   @Column({
     type: 'timestamp',
@@ -31,8 +40,10 @@ export class User {
   })
   verifiedEmailAt: Date;
 
-  @Column()
-  roleId: number;
+  // Define la relación ManyToOne con la entidad Role
+  @ManyToOne(() => Role, (role) => role.users)
+  @JoinColumn({ name: 'role_id' })
+  role: Role;
 
   @Column({
     type: 'timestamp',
@@ -43,6 +54,7 @@ export class User {
   @Column({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
 }
