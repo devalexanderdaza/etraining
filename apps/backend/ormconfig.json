@@ -1,0 +1,13 @@
+{
+  "type": "mysql",
+  "host": "162.241.61.243",
+  "port": 3306,
+  "username": "alexan43_etraining_prueba",
+  "password": "[r9N*7E7%@AT",
+  "database": "alexan43_etraining_prueba",
+  "entities": ["src/entities/*.ts"],
+  "migrations": ["src/migrations/*.ts"],
+  "cli": {
+    "migrationsDir": "src/migrations"
+  }
+}
