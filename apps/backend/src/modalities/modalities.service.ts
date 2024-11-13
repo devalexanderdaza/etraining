@@ -1,26 +1,36 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateModalityDto } from './dto/create-modality.dto';
 import { UpdateModalityDto } from './dto/update-modality.dto';
+import { Modality } from './entities/modality.entity';
 
 @Injectable()
 export class ModalitiesService {
-  create(createModalityDto: CreateModalityDto) {
-    return 'This action adds a new modality';
+  constructor(
+    @InjectRepository(Modality)
+    private modalityRepository: Repository<Modality>,
+  ) {}
+
+  async create(createModalityDto: CreateModalityDto) {
+    return await this.modalityRepository.save(createModalityDto);
   }
 
-  findAll() {
-    return `This action returns all modalities`;
+  async findAll() {
+    return await this.modalityRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} modality`;
+  async findOne(id: number) {
+    return await this.modalityRepository.findOne({
+      where: { id },
+    });
   }
 
-  update(id: number, updateModalityDto: UpdateModalityDto) {
-    return `This action updates a #${id} modality`;
+  async update(id: number, updateModalityDto: UpdateModalityDto) {
+    return await this.modalityRepository.update({ id }, updateModalityDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} modality`;
+  async remove(id: number) {
+    return await this.modalityRepository.delete({ id });
   }
 }

@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateInscriptionStatusDto } from './dto/create-inscription-status.dto';
 import { UpdateInscriptionStatusDto } from './dto/update-inscription-status.dto';
+import { InscriptionStatus } from './entities/inscription-status.entity';
 
 @Injectable()
 export class InscriptionStatusService {
-  create(createInscriptionStatusDto: CreateInscriptionStatusDto) {
-    return 'This action adds a new inscriptionStatus';
+  constructor(
+    @InjectRepository(InscriptionStatus)
+    private inscriptionStatusRepository: Repository<InscriptionStatus>,
+  ) {}
+
+  async create(createInscriptionStatusDto: CreateInscriptionStatusDto) {
+    return await this.inscriptionStatusRepository.save(
+      createInscriptionStatusDto,
+    );
   }
 
-  findAll() {
-    return `This action returns all inscriptionStatus`;
+  async findAll() {
+    return await this.inscriptionStatusRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} inscriptionStatus`;
+  async findOne(id: number) {
+    return await this.inscriptionStatusRepository.findOne({
+      where: { id },
+    });
   }
 
-  update(id: number, updateInscriptionStatusDto: UpdateInscriptionStatusDto) {
-    return `This action updates a #${id} inscriptionStatus`;
+  async update(
+    id: number,
+    updateInscriptionStatusDto: UpdateInscriptionStatusDto,
+  ) {
+    return await this.inscriptionStatusRepository.update(
+      { id },
+      updateInscriptionStatusDto,
+    );
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} inscriptionStatus`;
+  async remove(id: number) {
+    return await this.inscriptionStatusRepository.delete({ id });
   }
 }
