@@ -1,46 +1,31 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsPositive,
-  IsString,
-} from 'class-validator';
+import { IsString, IsEmail, IsOptional, IsEnum, IsNumber } from 'class-validator';
+import { Role } from '../../core/enums/role.enum';
+import { Type } from 'class-transformer';
 
-export class CreateUserDto {
+export class UserDto {
   @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
-  firstName: string;
+  first_name: string;
 
   @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
-  lastName: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
-  username: string;
+  last_name: string;
 
   @IsEmail()
-  @IsNotEmpty()
-  @ApiProperty()
   email: string;
 
   @IsString()
-  @IsNotEmpty()
-  @ApiProperty()
-  password: string;
+  phone: string;
 
-  @IsString()
   @IsOptional()
-  @ApiPropertyOptional()
-  phone?: string;
+  @Type(() => Date)
+  @IsString()
+  verified_email_at?: Date;
 
+  @IsEnum(Role)
+  role: string;
+}
+
+export class CreateUserDto extends UserDto {
   @IsNumber()
-  @IsPositive()
-  @ApiProperty()
-  role: number;
+  @Type(() => Number)
+  course_id: number;
 }
