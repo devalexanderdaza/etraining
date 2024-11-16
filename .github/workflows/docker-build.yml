@@ -3,9 +3,9 @@ name: Build and Push Docker Images
 on:
   push:
     paths:
-      - "apps/frontend/**"
-      - "apps/backend/**"
-      - ".github/workflows/docker-build.yml"
+      - 'apps/frontend/**'
+      - 'apps/backend/**'
+      - '.github/workflows/docker-build.yml'
 
 jobs:
   build-and-push:
@@ -13,7 +13,7 @@ jobs:
     env:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      DOCKER_REPO: your-dockerhub-username/your-repo-name
+      DOCKER_REPO: alexanderdazadev/etraining
 
     steps:
       # Checkout the repository
@@ -28,16 +28,26 @@ jobs:
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
+      # Detect changes in frontend
+      - name: Detect changes in Frontend
+        id: frontend_changed
+        run: echo "::set-output name=changed::$(git diff --name-only HEAD~1 | grep -q '^apps/frontend/' && echo true || echo false)"
+
+      # Detect changes in backend
+      - name: Detect changes in Backend
+        id: backend_changed
+        run: echo "::set-output name=changed::$(git diff --name-only HEAD~1 | grep -q '^apps/backend/' && echo true || echo false)"
+
       # Build and push the frontend image
       - name: Build and Push Frontend
-        if: ${{ github.event.paths.* contains 'apps/frontend/' }}
+        if: steps.frontend_changed.outputs.changed == 'true'
         run: |
           docker build -f apps/frontend/Dockerfile.local -t $DOCKER_REPO:frontend-latest ./apps/frontend
           docker push $DOCKER_REPO:frontend-latest
 
       # Build and push the backend image
       - name: Build and Push Backend
-        if: ${{ github.event.paths.* contains 'apps/backend/' }}
+        if: steps.backend_changed.outputs.changed == 'true'
         run: |
           docker build -f apps/backend/Dockerfile.local -t $DOCKER_REPO:backend-latest ./apps/backend
           docker push $DOCKER_REPO:backend-latest
