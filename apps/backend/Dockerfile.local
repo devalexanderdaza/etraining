@@ -1,0 +1,17 @@
+FROM node:20-alpine
+
+RUN npm install pnpm -g
+
+RUN mkdir -p /svr/app
+WORKDIR /svr/app
+
+COPY package.json .
+
+RUN pnpm install
+
+COPY . .
+
+RUN npx prisma generate
+
+EXPOSE 5000
+CMD ["pnpm", "run", "dev"]

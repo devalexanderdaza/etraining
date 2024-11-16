@@ -1,19 +1,12 @@
 {
 	"$schema": "https://turbo.build/schema.json",
-	"pipeline": {
+  "globalDependencies": [
+    "**/.env.*local"
+  ],
+	"tasks": {
 		"dev": {
-			"cache": true,
-      "dependsOn": ["^dev"],
-      "steps": [
-        {
-          "name": "backend",
-          "run": "yarn workspace apps/backend dev"
-        },
-        {
-          "name": "frontend",
-          "run": "yarn workspace apps/frontend dev"
-        }
-      ]
+			"cache": false,
+      "persistent": true
 		},
 		"build": {
 			"dependsOn": ["^build"],
