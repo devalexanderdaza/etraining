@@ -10,12 +10,13 @@ import {
 import { useForm } from "react-hook-form";
 import { CreateUser as ICreateUser, REQUIRED_MESSAGE } from "../../libs";
 
+import AddIcon from "@mui/icons-material/Add";
 import ContactEmergencyIcon from "@mui/icons-material/ContactEmergency";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import { useEffect, useState } from "react";
-import { getCourses } from "../../services/courses";
 import { Course } from "../../libs/interfaces/course";
 import { createUser } from "../../services";
+import { getCourses } from "../../services/courses";
 
 // Zustand
 import { useUIStore } from "../../zustand/store";
@@ -36,11 +37,28 @@ const CreateUser = () => {
   const onSubmit = async (data: ICreateUser) => {
     setLoading(true);
     const user = await createUser(data);
-    if (user) {
+    if (user && user.id) {
       newAlert({
         id: new Date().getTime().toString(),
-        message: "Usuario creado correctamente",
+        message: `User created successfully`,
         severity: "success",
+      });
+      setLoading(false);
+      // Redirection to the users list page
+      setTimeout(() => {
+        history.go(-1);
+      } , 3000);
+    } else if (user && user.response.data.message) {
+      newAlert({
+        id: new Date().getTime().toString(),
+        message: user.response.data.message,
+        severity: "error",
+      });
+    } else {
+      newAlert({
+        id: new Date().getTime().toString(),
+        message: "Error creating user",
+        severity: "error",
       });
     }
     setLoading(false);
@@ -65,9 +83,8 @@ const CreateUser = () => {
           required
           type="text"
           autoComplete="off"
-          label="Nombre"
+          label="NOMBRES"
           disabled={loading}
-          placeholder="Ej: Pepe"
           helperText={!!errors.first_name && errors.first_name.message}
           error={!!errors.first_name}
           {...register("first_name", {
@@ -77,7 +94,7 @@ const CreateUser = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <ContactEmergencyIcon />
+                <ContactEmergencyIcon color="secondary" />
               </InputAdornment>
             ),
           }}
@@ -89,9 +106,8 @@ const CreateUser = () => {
           sx={{ ml: 2 }}
           type="text"
           autoComplete="off"
-          label="Apellido"
+          label="APELLIDOS"
           disabled={loading}
-          placeholder="Ej: Argento"
           helperText={!!errors.last_name && errors.last_name.message}
           error={!!errors.last_name}
           {...register("last_name", {
@@ -101,7 +117,7 @@ const CreateUser = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <ContactEmergencyIcon />
+                <ContactEmergencyIcon color="secondary" />
               </InputAdornment>
             ),
           }}
@@ -119,9 +135,8 @@ const CreateUser = () => {
           required
           type="text"
           autoComplete="off"
-          label="Email"
+          label="CORREO ELECTRÓNICO"
           disabled={loading}
-          placeholder="Ej: some@some.es"
           helperText={!!errors.email && errors.email.message}
           error={!!errors.email}
           {...register("email", {
@@ -131,7 +146,7 @@ const CreateUser = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <ContactEmergencyIcon />
+                <ContactEmergencyIcon color="secondary" />
               </InputAdornment>
             ),
           }}
@@ -143,9 +158,8 @@ const CreateUser = () => {
           required
           type="text"
           autoComplete="off"
-          label="Teléfono"
+          label="TELÉFONO"
           disabled={loading}
-          placeholder="Ej: 123456789"
           helperText={!!errors.phone && errors.phone.message}
           error={!!errors.phone}
           {...register("phone", {
@@ -155,7 +169,7 @@ const CreateUser = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <ContactEmergencyIcon />
+                <ContactEmergencyIcon color="secondary"/>
               </InputAdornment>
             ),
           }}
@@ -168,8 +182,7 @@ const CreateUser = () => {
         sx={{ mb: 2 }}
         select
         autoComplete="off"
-        label="Rol"
-        placeholder="Seleccionar"
+        label="TIPO DE USUARIO"
         disabled={loading}
         helperText={!!errors.role && errors.role.message}
         error={!!errors.role}
@@ -180,7 +193,7 @@ const CreateUser = () => {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <Diversity3Icon />
+              <Diversity3Icon color="secondary" />
             </InputAdornment>
           ),
         }}
@@ -198,8 +211,7 @@ const CreateUser = () => {
           sx={{ mb: 2 }}
           select
           autoComplete="off"
-          label="Curso"
-          placeholder="Seleccionar"
+          label="CURSO"
           disabled={loading}
           helperText={!!errors.course_id && errors.course_id.message}
           error={!!errors.course_id}
@@ -210,7 +222,7 @@ const CreateUser = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <Diversity3Icon />
+                <Diversity3Icon color="secondary"/>
               </InputAdornment>
             ),
           }}
@@ -225,8 +237,11 @@ const CreateUser = () => {
         <Box> No hay cursos</Box>
       )}
 
-      <Button type="submit" variant="contained">
-        Guardar
+      <Button type="submit" variant="contained" startIcon={<AddIcon />} style={{ 
+            color: "#1b0a1e",
+            borderColor: "#1b0a1e",
+          }}>
+        Crear usuario
       </Button>
     </Box>
   );

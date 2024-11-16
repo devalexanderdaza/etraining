@@ -13,14 +13,15 @@ import { useForm } from "react-hook-form";
 import { REQUIRED_MESSAGE } from "../../libs";
 
 // Icons
+import AddIcon from "@mui/icons-material/Add";
 import ContactEmergencyIcon from "@mui/icons-material/ContactEmergency";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
 import { Course } from "../../libs/interfaces/course";
 import { createCourse } from "../../services/courses";
 
 // Zustand
-import { useUIStore } from "../../zustand/store";
 import { useState } from "react";
+import { useUIStore } from "../../zustand/store";
 
 const CreateCourse = () => {
   const [loading, setLoading] = useState(false);
@@ -37,11 +38,28 @@ const CreateCourse = () => {
     setLoading(true);
     const course = await createCourse(data);
 
-    if (course) {
+    if (course && course.id) {
       newAlert({
         id: new Date().getTime().toString(),
-        message: "Curso creado correctamente",
+        message: `Course created successfully`,
         severity: "success",
+      });
+      setLoading(false);
+      // Redirection to the courses list page
+      setTimeout(() => {
+        history.go(-1);
+      }, 3000);
+    } else if (course && course.response.data.message) {
+      newAlert({
+        id: new Date().getTime().toString(),
+        message: course.response.data.message,
+        severity: "error",
+      });
+    } else {
+      newAlert({
+        id: new Date().getTime().toString(),
+        message: "Error creating course",
+        severity: "error",
       });
     }
     setLoading(false);
@@ -55,9 +73,9 @@ const CreateCourse = () => {
         sx={{ mb: 2 }}
         type="text"
         autoComplete="off"
-        label="Nombre del curso"
+        label="NOMBRE DEL CURSO"
         disabled={loading}
-        placeholder="Ej: Curso de Programación"
+        placeholder="NestJS desde cero a experto"
         helperText={!!errors.name && errors.name.message}
         error={!!errors.name}
         {...register("name", {
@@ -67,7 +85,7 @@ const CreateCourse = () => {
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
-              <ContactEmergencyIcon />
+              <ContactEmergencyIcon color="secondary"/>
             </InputAdornment>
           ),
         }}
@@ -85,8 +103,7 @@ const CreateCourse = () => {
           sx={{ mb: 2 }}
           select
           autoComplete="off"
-          label="Categoría"
-          placeholder="Seleccionar"
+          label="CATEGORÍA"
           disabled={loading}
           helperText={!!errors.category_id && errors.category_id.message}
           error={!!errors.category_id}
@@ -97,7 +114,7 @@ const CreateCourse = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <Diversity3Icon />
+                <Diversity3Icon color="secondary"/>
               </InputAdornment>
             ),
           }}
@@ -114,8 +131,7 @@ const CreateCourse = () => {
           sx={{ ml: 2 }}
           select
           autoComplete="off"
-          label="Modalidad"
-          placeholder="Seleccionar"
+          label="MODALIDAD"
           disabled={loading}
           helperText={!!errors.modality_id && errors.modality_id.message}
           error={!!errors.modality_id}
@@ -126,7 +142,7 @@ const CreateCourse = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <Diversity3Icon />
+                <Diversity3Icon color="secondary"/>
               </InputAdornment>
             ),
           }}
@@ -148,9 +164,9 @@ const CreateCourse = () => {
           required
           type="number"
           autoComplete="off"
-          label="Duración"
+          label="DURACIÓN"
           disabled={loading}
-          placeholder="Ej: 200 horas"
+          placeholder="40 horas"
           helperText={!!errors.duration && errors.duration.message}
           error={!!errors.duration}
           {...register("duration", {
@@ -160,7 +176,7 @@ const CreateCourse = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <ContactEmergencyIcon />
+                <ContactEmergencyIcon color="secondary"/>
               </InputAdornment>
             ),
           }}
@@ -172,7 +188,7 @@ const CreateCourse = () => {
           sx={{ ml: 2 }}
           type="number"
           autoComplete="off"
-          label="Cuota"
+          label="CUOTA"
           disabled={loading}
           placeholder="Ej: 2000"
           helperText={!!errors.couta && errors.couta.message}
@@ -184,13 +200,16 @@ const CreateCourse = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <ContactEmergencyIcon />
+                <ContactEmergencyIcon color="secondary"/>
               </InputAdornment>
             ),
           }}
         />
       </Box>
-      <Button type="submit" variant="contained" disabled={loading}>
+      <Button type="submit" variant="contained" disabled={loading} startIcon={<AddIcon />} style={{ 
+            color: "#1b0a1e",
+            borderColor: "#1b0a1e",
+          }}>
         {loading ? "Creando curso..." : "Crear curso"}
       </Button>
     </Box>

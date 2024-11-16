@@ -13,7 +13,7 @@ const configurations = registerAs(
     secretKey: process.env.SECRET_KEY,
     jwtExpiresIn: process.env.TOKEN_EXPIRATION,
     databaseUrl: process.env.DATABASE,
-  }),
+  })
 );
 
 export default configurations;

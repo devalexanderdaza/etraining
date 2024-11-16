@@ -1,5 +1,5 @@
-import { styled, Theme, CSSObject } from "@mui/material/styles";
 import MuiDrawer from "@mui/material/Drawer";
+import { CSSObject, styled, Theme } from "@mui/material/styles";
 
 const drawerWidth = 240;
 
@@ -31,6 +31,7 @@ const StyledDrawer = styled(MuiDrawer, {
   flexShrink: 0,
   whiteSpace: "nowrap",
   boxSizing: "border-box",
+  borderRight: "1px solid #1b0a1e",
   ...(open && {
     ...openedMixin(theme),
     "& .MuiDrawer-paper": openedMixin(theme),

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { CoursesRepository } from './courses.repository';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { CoursesRepository } from './courses.repository';
 
 @Injectable()
 export class CoursesService {
@@ -17,6 +17,10 @@ export class CoursesService {
 
   findOne(id: number) {
     return this.coursesRepository.findOne(id);
+  }
+
+  async findOneByName(name: string) {
+    return await this.coursesRepository.findOneByName(name);
   }
 
   update(id: number, updateCourseDto: UpdateCourseDto) {

@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'prisma/prisma.service';
 import { UserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class UsersRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  findByEmail(email: string) {
-    return this.prismaService.user.findFirst({
+  async findByEmail(email: string) {
+    return await this.prismaService.user.findFirst({
       where: { email },
       include: { role: true },
     });
@@ -25,7 +25,9 @@ export class UsersRepository {
   }
 
   findAll() {
-    return this.prismaService.user.findMany();
+    return this.prismaService.user.findMany({
+      include: { role: true },
+    });
   }
 
   findOne(id: number) {

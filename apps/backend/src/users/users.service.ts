@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { CreateUserCourseDto } from 'src/user-course/dto/create-user-course.dto';
+import { UserCourseService } from 'src/user-course/user-course.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersRepository } from './users.repository';
-import { UserCourseService } from 'src/user-course/user-course.service';
-import { CreateUserCourseDto } from 'src/user-course/dto/create-user-course.dto';
 
 @Injectable()
 export class UsersService {
@@ -39,7 +39,7 @@ export class UsersService {
     return this.userRepository.remove(id);
   }
 
-  findByEmail(email: string) {
-    return this.userRepository.findByEmail(email);
+  async findByEmail(email: string) {
+    return await this.userRepository.findByEmail(email);
   }
 }

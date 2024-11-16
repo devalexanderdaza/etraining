@@ -1,11 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UnprocessableEntityException,
+  UseGuards,
+} from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { HasRoles } from 'src/auth/guards/roles.decorator';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Role } from 'src/core/enums/role.enum';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { Role } from 'src/core/enums/role.enum';
-import { HasRoles } from 'src/auth/guards/roles.decorator';
 
 @Controller('courses')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -14,7 +24,11 @@ export class CoursesController {
 
   @HasRoles(Role.Admin, Role.Coordinador, Role.Docente)
   @Post()
-  create(@Body() createCourseDto: CreateCourseDto) {
+  async create(@Body() createCourseDto: CreateCourseDto) {
+    const course = await this.coursesService.findOneByName(createCourseDto.name);
+    if (course) {
+      throw new UnprocessableEntityException('Course already exists');
+    }
     return this.coursesService.create(createCourseDto);
   }
 

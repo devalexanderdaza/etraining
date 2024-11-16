@@ -1,7 +1,7 @@
 import { Box, FormControl, MenuItem, Typography } from "@mui/material";
 
 // Components
-import { StyledBox, StyledSelect, StyledPagination } from "../../../components";
+import { StyledBox, StyledPagination, StyledSelect } from "../../../components";
 
 interface Props {
   total: number;
@@ -18,6 +18,9 @@ const EnhancedTablePagination = ({ total }: Props) => {
         left: 0,
         bottom: 0,
       }}
+      style={{
+        backgroundColor: "#1b0a1e",
+      }}
     >
       <Box
         sx={{
@@ -31,7 +34,7 @@ const EnhancedTablePagination = ({ total }: Props) => {
         <Typography variant="caption" sx={{ ml: 0.5 }}>
           - {/* {Number(searchParams.get("rowsPerPage") || 20) * */}
           {/* Number(searchParams.get("page") || 1)}{" "} */}
-          de {total}
+          1 de {total}
         </Typography>
         <FormControl
           variant="standard"

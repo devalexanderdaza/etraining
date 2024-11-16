@@ -1,6 +1,6 @@
 // Icons
-import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
-import BookIcon from "@mui/icons-material/Book";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CoPresentIcon from '@mui/icons-material/CoPresent';
 
 interface DrawerData {
   title: string;
@@ -13,12 +13,12 @@ const drawerData: DrawerData[] = [
   {
     title: "Usuarios",
     path: "/",
-    icon: <SupervisedUserCircleIcon fontSize="small" />,
+    icon: <AccountCircleIcon fontSize="small" />,
   },
   {
     title: "Cursos",
     path: "/courses",
-    icon: <BookIcon fontSize="small" />,
+    icon: <CoPresentIcon fontSize="small" />,
   },
 ];
 

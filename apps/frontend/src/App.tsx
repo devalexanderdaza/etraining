@@ -1,19 +1,19 @@
 import { Route, Routes } from "react-router-dom";
 
 // Components
-import UserCourses from "./components/user-courses/UserCourses";
 import { Courses, CreateCourse, GeneralLoader, Users } from "./components";
+import UserCourses from "./components/user-courses/UserCourses";
 import CreateUser from "./components/user/CreateUser";
 
 // Zustand
-import { useAuthStore } from "./zustand/store";
 import { useEffect } from "react";
+import { useAuthStore } from "./zustand/store";
 
 function App() {
   const { login, isAuthenticated } = useAuthStore((state) => state);
 
   useEffect(() => {
-    login("juancamilorr2012@hotmail.com", "xd");
+    login("dev.alexander.daza@gmail.com", "admin");
   }, [login]);
 
   if (!isAuthenticated) {

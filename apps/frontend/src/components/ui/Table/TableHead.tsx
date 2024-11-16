@@ -23,6 +23,9 @@ const EnhancedTableHead = ({
         top: 0,
         zIndex: 100,
       }}
+      style={{
+        backgroundColor: "#1b0a1e",
+      }}
     >
       <TableRow
         sx={{
@@ -37,12 +40,15 @@ const EnhancedTableHead = ({
             }}
           >
             <Checkbox
-              color="primary"
+              color="secondary"
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={rowCount > 0 && numSelected === rowCount}
               onChange={onSelectAllClick}
               inputProps={{
                 "aria-label": "select all desserts",
+              }}
+              style={{
+                color: "#fd7f00",
               }}
             />
           </TableCell>

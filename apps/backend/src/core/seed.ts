@@ -65,6 +65,29 @@ async function main() {
       create: modality,
     });
   }
+
+  // Seed Users
+  const users = [
+    {
+      id: 1,
+      email: 'dev.alexander.daza@gmail.com',
+      first_name: 'Alexander',
+      last_name: 'Daza',
+      phone: '573212191184',
+      verified_email_at: new Date(),
+      role_id: 1,
+      created_at: new Date(),
+      updated_at: new Date(),
+    },
+  ];
+
+  for (const user of users) {
+    await prisma.user.upsert({
+      where: { id: user.id },
+      update: {},
+      create: user,
+    });
+  }
 }
 
 main()
