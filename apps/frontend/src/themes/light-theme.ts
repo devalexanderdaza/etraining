@@ -4,31 +4,38 @@ const lightTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#001e63",
+      main: "#fd7f00",
+      contrastText: "#ffffff",
     },
     secondary: {
-      main: "#a29bfe",
+      main: "#3a1535",
+      dark: "#1b0a1e",
+      light: "#4f2a4f",
+      contrastText: "#ffffff",
     },
     error: {
       main: "#d32f2f",
-      contrastText: "#eef7ff",
+      contrastText: "#ffffff",
     },
     warning: {
       main: "#fdec12",
       light: "#feff89",
       dark: "#a37605",
+      contrastText: "#001e61",
     },
     success: {
       main: "#52d689",
       light: "#bef4d4",
       dark: "#1b7a43",
+      contrastText: "#ffffff",
     },
     background: {
       default: "#f8fafd",
-      paper: "#dfe6e9",
+      paper: "#ffffff",
     },
     text: {
-      primary: "#001e61",
+      primary: "#3a1535",
+      secondary: "#1b0a1e",
     },
   },
 });

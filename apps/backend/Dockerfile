@@ -1,15 +1,17 @@
 FROM node:20-alpine
 
+RUN npm install yarn -g
+
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+COPY yarn.lock ./
 
 COPY . .
 
 RUN npx prisma generate
-RUN npm run build
+RUN yarn run build
 
 EXPOSE 5000
 
-CMD ["npm", "run", "start:prod"]
+CMD ["yarn", "run", "start:prod"]

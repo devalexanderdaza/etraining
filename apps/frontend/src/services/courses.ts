@@ -15,8 +15,10 @@ const createCourse = async (course: Course) => {
     const { data } = await api.post("/courses", course);
     return data;
   } catch (error) {
-    console.error(error);
+    console.error(`[ERROR] createCourse`, error);
+    return error;
   }
 };
 
-export { getCourses, createCourse };
+export { createCourse, getCourses };
+

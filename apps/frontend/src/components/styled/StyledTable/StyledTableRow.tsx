@@ -1,17 +1,17 @@
-import { styled } from "@mui/system";
 import { TableRow } from "@mui/material";
+import { styled } from "@mui/system";
 
 const StyledTableRow = styled(TableRow)(({ theme }) => {
   return {
     "&.Mui-selected": {
-      backgroundColor:
-        theme.palette.mode === "dark"
-          ? theme.palette.secondary.dark
-          : theme.palette.secondary.light,
+      backgroundColor: '#ffefe0'
+        // theme.palette.mode === "dark"
+        //   ? theme.palette.secondary.main
+        //   : theme.palette.secondary.light,
     },
-    // "&.Mui-selected:hover": {
-    //   backgroundColor: theme.palette.secondary.main,
-    // },
+    "&.Mui-selected:hover": {
+      backgroundColor: '#FFD2A7FF'
+    },
   };
 });
 

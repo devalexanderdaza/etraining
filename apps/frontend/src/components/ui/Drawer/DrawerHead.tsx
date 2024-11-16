@@ -1,12 +1,8 @@
-import { useTheme } from "@mui/material";
-import { ToggleButton, Typography } from "@mui/material";
+import { Typography, useTheme } from "@mui/material";
 
 // Components
-import { ToggleDrawer } from "./ToggleDrawer";
 
 // Icons
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 
 // Zustand
 import { useUIStore } from "../../../zustand/store";
@@ -17,7 +13,7 @@ import { StyledDrawerHeader } from "../../../components/styled/StyledDrawer/Styl
 const DrawerHead = () => {
   const theme = useTheme();
 
-  const { drawer, setDrawer, darkMode } = useUIStore((state) => state);
+  const { drawer } = useUIStore((state) => state);
   const { open } = drawer;
 
   return (
@@ -29,7 +25,6 @@ const DrawerHead = () => {
         backgroundColor: theme.palette.background.default,
       }}
     >
-      <ToggleDrawer />
 
       <Typography
         variant="h6"
@@ -37,27 +32,10 @@ const DrawerHead = () => {
         fontSize={open ? "1.2rem" : "1.5rem"}
         fontWeight={600}
         textAlign={open ? "left" : "center"}
-        color={darkMode ? "primary.main" : "secondary.main"}
+        color={"secondary.main"}
       >
-        ETraining
+        {open ? "ETraining" : "ET"}
       </Typography>
-
-      <ToggleButton
-        value="check"
-        aria-label="list"
-        size="small"
-        sx={{
-          padding: "5px",
-          borderRadius: 1.5,
-        }}
-        onClick={() => setDrawer({ open: !open })}
-      >
-        {open ? (
-          <NavigateBeforeIcon fontSize="small" />
-        ) : (
-          <NavigateNextIcon fontSize="small" />
-        )}
-      </ToggleButton>
     </StyledDrawerHeader>
   );
 };

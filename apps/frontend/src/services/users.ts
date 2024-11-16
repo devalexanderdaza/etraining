@@ -11,13 +11,13 @@ const getUsers = async () => {
   }
 };
 
-const createUser = async (data: CreateUser) => {
+const createUser = async (user: CreateUser) => {
   try {
-    const response = await api.post("/users", data);
-    return response.data;
+    const { data } = await api.post("/users", user);
+    return data;
   } catch (error) {
     console.error(`[ERROR] createUser`, error);
-    return [];
+    return error;
   }
 };
 

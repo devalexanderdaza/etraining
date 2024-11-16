@@ -1,20 +1,11 @@
 import {
-  Typography,
-  // Tooltip,
-  // IconButton,
-  capitalize,
   Box,
+  Typography
 } from "@mui/material";
 
 // Components
 import { StyledToolbar } from "../../../components/styled/StyledTable/StyledToolbar";
 import { TableAction } from "../../../libs/interfaces/ui/table/table-action";
-
-// Icons
-// import AddBoxIcon from "@mui/icons-material/AddBox";
-
-// Zustand
-// import { useUIStore } from "../../../zustand/store";
 
 interface Props {
   selected: readonly string[];
@@ -22,29 +13,14 @@ interface Props {
   pathname: string;
   tableActions: TableAction[];
   readonly?: boolean;
+  tableTitle?: string;
 }
 
 const EnhancedTableToolbar = ({
-  // selected,
   numSelected,
-  pathname,
-  // tableActions,
   readonly,
+  tableTitle,
 }: Props) => {
-  // const { setDialog } = useUIStore();
-
-  // const handleMultiple = (
-  //   { title, ...params }: TableAction,
-  //   selected: readonly string[]
-  // ) => {
-  //   setDialog({
-  //     open: true,
-  //     title,
-  //     message: "",
-  //     children: <params.children selected={selected} />,
-  //   });
-  // };
-
   return (
     <StyledToolbar
       sx={{
@@ -52,6 +28,8 @@ const EnhancedTableToolbar = ({
         justifyContent: "space-between",
         position: "sticky",
         left: 0,
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.05)",
+        background: "#3a1535",
       }}
     >
       {numSelected > 0 ? (
@@ -60,70 +38,11 @@ const EnhancedTableToolbar = ({
         </Typography>
       ) : (
         <Typography variant="h6" fontWeight={400}>
-          {pathname === "/" ? "Usuarios" : capitalize(pathname.slice(1))}
+          {tableTitle}
         </Typography>
       )}
       {!readonly && (
         <Box>
-          {/* {numSelected === 1 &&
-            tableActions
-              .filter((action) => !action.multiple)
-              .map(({ action, title, multiple, ...params }, i) => (
-                <Link
-                  key={i}
-                  href={`${pathname}/${selected[0]}?${action}=true`}
-                >
-                  <Tooltip title={title} color="inherit">
-                    <IconButton size="small">
-                      {<params.icon fontSize="small" />}
-                    </IconButton>
-                  </Tooltip>
-                </Link>
-              ))} */}
-
-          {/* {numSelected === 1 &&
-            tableActions
-              .filter((action) => action.multiple)
-              .map((tableAction, i) => {
-                const { action, title, multiple, ...params } = tableAction;
-                return (
-                  <Tooltip key={i} title={title} color="inherit">
-                    <IconButton
-                      size="small"
-                      onClick={() => handleMultiple(tableAction, selected)}
-                    >
-                      {<params.icon fontSize="small" />}
-                    </IconButton>
-                  </Tooltip>
-                );
-              })} */}
-
-          {/* {numSelected > 1 &&
-            tableActions
-              .filter((action) => action.multiple)
-              .map((tableAction, i) => {
-                const { action, title, multiple, ...params } = tableAction;
-                return (
-                  <Tooltip key={i} title={title} color="inherit">
-                    <IconButton
-                      size="small"
-                      onClick={() => handleMultiple(tableAction, selected)}
-                    >
-                      {<params.icon fontSize="small" />}
-                    </IconButton>
-                  </Tooltip>
-                );
-              })} */}
-
-          {/* {numSelected === 0 && (
-            <Link href={`${pathname}/registrar`}>
-              <Tooltip title={"Crear"} color="inherit">
-                <IconButton size="small">
-                  {<AddBoxIcon fontSize="small" />}
-                </IconButton>
-              </Tooltip>
-            </Link>
-          )} */}
         </Box>
       )}
     </StyledToolbar>

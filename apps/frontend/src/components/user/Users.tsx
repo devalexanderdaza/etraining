@@ -12,11 +12,37 @@ import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
+  interface User {
+    id: number;
+    name: string;
+    email: string;
+    verified_email_at: string;
+    role_id: string;
+    created_at: string;
+    updated_at: string;
+  }
+  
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     getUsers().then((users) => {
-      setUsers(users);
+      const usersArray: any[] | ((prevState: never[]) => never[]) = [];
+      
+      users.forEach((user: any) => {
+        usersArray.push({
+          id: user.id,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          email: user.email,
+          phone: user.phone,
+          verified_email_at: user.verified_email_at ? "Verificado" : "No verificado",
+          role_id: user.role.name.toUpperCase(),
+          created_at: new Date(user.created_at).toLocaleString(),
+          updated_at: new Date(user.updated_at).toLocaleString(),
+        });
+      });
+
+      setUsers(usersArray);
     });
   }, []);
 
@@ -28,11 +54,25 @@ const Users = () => {
           size="small"
           sx={{ mb: 2 }}
           startIcon={<AddIcon />}
+          style={{ 
+            color: "#1b0a1e",
+            borderColor: "#1b0a1e",
+          }}
         >
-          Crear usuario
+          Nuevo usuario
         </Button>
       </Link>
-      <EnhancedTable rows={users} actions={[]} dict={{}} total={10} />
+      <EnhancedTable rows={users} actions={[]} dict={{
+        id: "ID",
+        first_name: "Nombre",
+        last_name: "Apellido",
+        email: "Correo",
+        phone: "Teléfono",
+        verified_email_at: "Estado",
+        role_id: "Rol",
+        created_at: "Creado",
+        updated_at: "Actualizado",
+      }} total={10} tableTitle="Usuarios" />
     </Box>
   );
 };

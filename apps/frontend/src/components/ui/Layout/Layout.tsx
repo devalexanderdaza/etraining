@@ -1,6 +1,5 @@
 import { Box } from "@mui/material";
 import { PropsWithChildren } from "react";
-import { Breadcrumbs } from "../Breadcrumbs/Breadcrumbs";
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
@@ -12,7 +11,6 @@ const Layout = ({ children }: PropsWithChildren) => {
         width: "100%",
       }}
     >
-      <Breadcrumbs />
       {children}
     </Box>
   );

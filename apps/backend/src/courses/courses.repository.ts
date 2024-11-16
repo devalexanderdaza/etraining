@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'prisma/prisma.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class CoursesRepository {
@@ -12,11 +12,20 @@ export class CoursesRepository {
   }
 
   findAll() {
-    return this.prismaService.course.findMany();
+    return this.prismaService.course.findMany({
+      include: {
+        category: true,
+        modality: true,
+      },
+    });
   }
 
   findOne(id: number) {
     return this.prismaService.course.findUnique({ where: { id } });
+  }
+
+  async findOneByName(name: string) {
+    return await this.prismaService.course.findFirst({ where: { name } });
   }
 
   update(id: number, data: UpdateCourseDto) {

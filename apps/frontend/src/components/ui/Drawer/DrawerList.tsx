@@ -1,6 +1,5 @@
-import { useTheme } from "@mui/material";
+import { Box, List, ListItem, ListItemButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-import { Box, List, ListItem, ListItemButton, Typography } from "@mui/material";
 
 // Components
 import { drawerData } from "./DrawerData";
@@ -21,6 +20,7 @@ const DrawerList = () => {
         p: 2,
         backgroundColor: theme.palette.background.default,
         height: "100%",
+
       }}
     >
       {drawerData.map(({ path, title, icon }, index) => (

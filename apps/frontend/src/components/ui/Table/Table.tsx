@@ -1,21 +1,21 @@
+import { Checkbox, Paper, Table, TableBody, TableCell } from "@mui/material";
 import { isValidElement, useState } from "react";
-import { Table, TableBody, TableCell, Paper, Checkbox } from "@mui/material";
 
 // Components
-import { EnhancedTableHead } from "./TableHead";
 import { StyledTableRow } from "../../../components/styled/StyledTable/StyledTableRow";
-import { EnhancedTableToolbar } from "./TableToolbar";
+import { EnhancedTableHead } from "./TableHead";
 import { EnhancedTablePagination } from "./TablePagination";
+import { EnhancedTableToolbar } from "./TableToolbar";
 
 // Head Cells Dictionary
-import { transformKeys, parseTableActions } from "../../../utils";
+import { parseTableActions, transformKeys } from "../../../utils";
 
 // Interfaces
 import { TableActions } from "../../../libs/interfaces";
 import TableError from "./TableError";
 
 // Navigation
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Props<T> {
   rows: readonly T[];
@@ -23,6 +23,7 @@ interface Props<T> {
   total: number;
   actions: TableActions[];
   readonly?: boolean;
+  tableTitle?: string;
 }
 
 const EnhancedTable = ({
@@ -31,6 +32,7 @@ const EnhancedTable = ({
   actions,
   total,
   readonly = false,
+  tableTitle = "",
 }: Props<unknown>) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -81,6 +83,7 @@ const EnhancedTable = ({
         pathname={"/"}
         tableActions={parseTableActions(actions)}
         readonly={readonly}
+        tableTitle={tableTitle}
       />
       <Table aria-labelledby="ocr-table">
         {rows.length > 0 ? (
@@ -118,11 +121,14 @@ const EnhancedTable = ({
                     {!readonly && (
                       <TableCell padding="checkbox">
                         <Checkbox
-                          color="primary"
+                          color="secondary"
                           checked={isItemSelected}
                           inputProps={{
-                            "aria-labelledby": labelId,
+                            "aria-labelledby": labelId
                           }}
+                          style={{ 
+                            color: "#3a1535"
+                           }}
                         />
                       </TableCell>
                     )}

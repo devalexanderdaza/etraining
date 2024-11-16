@@ -1,5 +1,5 @@
-import { StateCreator } from "zustand";
 import axios from "axios";
+import { StateCreator } from "zustand";
 
 const VITE_BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
