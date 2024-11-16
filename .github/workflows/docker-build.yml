@@ -1,11 +1,10 @@
 name: Build and Push Docker Images
 
 on:
+  workflow_dispatch:
   push:
-    paths:
-      - 'apps/frontend/**'
-      - 'apps/backend/**'
-      - '.github/workflows/docker-build.yml'
+    branches:
+      - develop
 
 jobs:
   build-and-push:
@@ -28,34 +27,14 @@ jobs:
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # Detect changes in frontend
-      - name: Detect changes in Frontend
-        run: |
-          if git diff --name-only HEAD^ | grep -q '^apps/frontend/'; then
-            echo "FRONTEND_CHANGED=true" >> $GITHUB_ENV
-          else
-            echo "FRONTEND_CHANGED=false" >> $GITHUB_ENV
-          fi
-
-      # Detect changes in backend
-      - name: Detect changes in Backend
-        run: |
-          if git diff --name-only HEAD^ | grep -q '^apps/backend/'; then
-            echo "BACKEND_CHANGED=true" >> $GITHUB_ENV
-          else
-            echo "BACKEND_CHANGED=false" >> $GITHUB_ENV
-          fi
-
       # Build and push the frontend image
       - name: Build and Push Frontend
-        if: env.FRONTEND_CHANGED == 'true'
         run: |
           docker build -f apps/frontend/Dockerfile.local -t $DOCKER_REPO:frontend-latest ./apps/frontend
           docker push $DOCKER_REPO:frontend-latest
 
       # Build and push the backend image
       - name: Build and Push Backend
-        if: env.BACKEND_CHANGED == 'true'
         run: |
           docker build -f apps/backend/Dockerfile.local -t $DOCKER_REPO:backend-latest ./apps/backend
           docker push $DOCKER_REPO:backend-latest
